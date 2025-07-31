@@ -5,7 +5,7 @@ const remedySchema = new mongoose.Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
     ingredients: { type: [String], required: true },
-    preparationSteps: { type: String, required: true },
+    preparationSteps: { type: [String], required: true },
     usage: { type: String, required: true },
     ailment: { type: String, required: true },
     precautions: { type: String },
