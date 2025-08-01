@@ -19,15 +19,15 @@ mongoose.connect(process.env.MONGO_URI, {
   console.error(err);
 });
 
-app.post('/api/remedies', async (req, res) => {
-  try {
-    const remedy = new Remedy(req.body);
-    await remedy.save();
-    res.status(201).json(remedy);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
+// app.post('/api/remedies', async (req, res) => {
+//   try {
+//     const remedy = new Remedy(req.body);
+//     await remedy.save();
+//     res.status(201).json(remedy);
+//   } catch (error) {
+//     res.status(400).json({ message: error.message });
+//   }
+// });
 
 
 
@@ -41,15 +41,14 @@ app.get('/api/remedies', async (req, res) => {
 });
 
 
-// // POST multiple remedies
-// app.post('/api/remedies', async (req, res) => {
-//   try {
-//     const remedies = await Remedy.insertMany(req.body, { ordered: false });
-//     res.status(201).json(remedies);
-//   } catch (error) {
-//     res.status(400).json({ message: error.message });
-//   }
-// });
+app.post('/api/remedies', async (req, res) => {
+  try {
+    const remedies = await Remedy.insertMany(req.body, { ordered: false });
+    res.status(201).json(remedies);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
 
 
 // PUT update remedy
