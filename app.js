@@ -21,6 +21,8 @@ mongoose.connect(process.env.MONGO_URI, {
 
 app.post('/api/remedies', async (req, res) => {
   try {
+    await Remedy.deleteMany({ remedy_id: null });
+
     const remedy = new Remedy(req.body);
     await remedy.save();
     res.status(201).json(remedy);

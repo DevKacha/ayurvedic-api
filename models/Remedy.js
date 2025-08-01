@@ -1,7 +1,13 @@
 const mongoose = require('mongoose');
 
 const remedySchema = new mongoose.Schema({
-    remedyId: { type: String, required: true, unique: true },
+    remedyId: {
+        type: String,
+        unique: true,
+        default: function () {
+            return 'RMDY' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 1000);
+        }
+    },
     title: { type: String, required: true },
     description: { type: String, required: true },
     ingredients: { type: [String], required: true },
