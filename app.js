@@ -42,7 +42,7 @@ app.get('/api/remedies', async (req, res) => {
 
 
 // POST multiple remedies
-app.post('/api/remedies/bulk', async (req, res) => {
+app.post('/api/remedies', async (req, res) => {
   try {
     const remedies = await Remedy.insertMany(req.body);
     res.status(201).json(remedies);
