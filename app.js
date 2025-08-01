@@ -21,7 +21,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 app.post('/api/remedies', async (req, res) => {
   try {
-    const remedy = new Remedy.insertMany(req.body);
+    const remedy = new Remedy(req.body);
     await remedy.save();
     res.status(201).json(remedy);
   } catch (error) {
@@ -29,12 +29,25 @@ app.post('/api/remedies', async (req, res) => {
   }
 });
 
+
+
 app.get('/api/remedies', async (req, res) => {
   try {
     const remedies = await Remedy.find();
     res.json(remedies);
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+});
+
+
+// POST multiple remedies
+app.post('/api/remedies/bulk', async (req, res) => {
+  try {
+    const remedies = await Remedy.insertMany(req.body);
+    res.status(201).json(remedies);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 });
 
