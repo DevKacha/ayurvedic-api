@@ -41,15 +41,15 @@ app.get('/api/remedies', async (req, res) => {
 });
 
 
-// POST multiple remedies
-app.post('/api/remedies', async (req, res) => {
-  try {
-    const remedies = await Remedy.insertMany(req.body);
-    res.status(201).json(remedies);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
+// // POST multiple remedies
+// app.post('/api/remedies', async (req, res) => {
+//   try {
+//     const remedies = await Remedy.insertMany(req.body, { ordered: false });
+//     res.status(201).json(remedies);
+//   } catch (error) {
+//     res.status(400).json({ message: error.message });
+//   }
+// });
 
 
 // PUT update remedy
