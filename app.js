@@ -4,6 +4,7 @@ require('dotenv').config();
 const cors = require('cors');
 
 const Remedy = require('./models/Remedy');
+const Tips = require('./models/Tips');
 
 
 const app = express();
@@ -76,6 +77,83 @@ app.delete('/api/remedies/:id', async (req, res) => {
       return res.status(404).json({ message: 'Remedy not found' });
     }
     res.json({ message: 'Remedy deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// ==================== TIPS CRUD API ENDPOINTS ====================
+
+// GET all tips
+app.get('/api/tips', async (req, res) => {
+  try {
+    const tips = await Tips.find();
+    res.json(tips);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// GET tip by ID
+app.get('/api/tips/:id', async (req, res) => {
+  try {
+    const tip = await Tips.findById(req.params.id);
+    if (!tip) {
+      return res.status(404).json({ message: 'Tip not found' });
+    }
+    res.json(tip);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// POST create new tip
+app.post('/api/tips', async (req, res) => {
+  try {
+    const tip = new Tips({ tips: req.body.tips });
+    await tip.save();
+    res.status(201).json(tip);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// POST create multiple tips
+app.post('/api/tips/bulk', async (req, res) => {
+  try {
+    const tipsData = req.body.map(item => ({ tips: item.tips }));
+    const tips = await Tips.insertMany(tipsData, { ordered: false });
+    res.status(201).json(tips);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// PUT update tip
+app.put('/api/tips/:id', async (req, res) => {
+  try {
+    const updatedTip = await Tips.findByIdAndUpdate(
+      req.params.id,
+      { tips: req.body.tips },
+      { new: true }
+    );
+    if (!updatedTip) {
+      return res.status(404).json({ message: 'Tip not found' });
+    }
+    res.json(updatedTip);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// DELETE tip by ID
+app.delete('/api/tips/:id', async (req, res) => {
+  try {
+    const result = await Tips.findByIdAndDelete(req.params.id);
+    if (!result) {
+      return res.status(404).json({ message: 'Tip not found' });
+    }
+    res.json({ message: 'Tip deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
